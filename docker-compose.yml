@@ -1,0 +1,31 @@
+version: "3.2"
+services:
+  web:
+    image: "web"
+    build:
+      context: .
+    ports:
+      - "7000:80"
+    container_name: php_web
+    depends_on:
+      - database
+    volumes:
+      - ./php/:/var/www/html/
+    environment:
+      - HOST=${DATABASE_HOST}
+      - USERNAME=${DATABASE_USERNAME}
+      - PASSWORD=${DATABASE_PASSWORD}
+      - NAME=${DATABASE_NAME}
+  database:
+    image: mysql
+    container_name: ${DATABASE_HOST}
+    environment:
+      - MYSQL_ROOT_PASSWORD=MYSQL_ROOT_PASSWORD
+      - MYSQL_USER=${DATABASE_USERNAME}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+    ports:
+      - ${DATABASE_PORT}:3306
+    volumes:
+      - ./database_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/1-create_tables.sql:ro
