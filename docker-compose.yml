@@ -1,31 +1,28 @@
-version: "3.2"
+version: "2.8"
 services:
-  web:
-    image: "web"
+
+  merge_sort:
+    image: "php:8.0-apache"
+    ports:
+      - "7001:80"
+    container_name: merge_sort
+    volumes:
+      - ./merge_sort/:/var/www/html/
+
+  drawer:
+    image: "drawer"
     build:
-      context: .
+      context: ./drawer/.
     ports:
-      - "7000:80"
-    container_name: php_web
-    depends_on:
-      - database
+      - "7002:80"
+    container_name: drawer
     volumes:
-      - ./php/:/var/www/html/
-    environment:
-      - HOST=${DATABASE_HOST}
-      - USERNAME=${DATABASE_USERNAME}
-      - PASSWORD=${DATABASE_PASSWORD}
-      - NAME=${DATABASE_NAME}
-  database:
-    image: mysql
-    container_name: ${DATABASE_HOST}
-    environment:
-      - MYSQL_ROOT_PASSWORD=MYSQL_ROOT_PASSWORD
-      - MYSQL_USER=${DATABASE_USERNAME}
-      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
-      - MYSQL_DATABASE=${DATABASE_NAME}
+      - ./drawer/:/var/www/html/
+
+  admin:
+    image: "php:8.0-apache"
     ports:
-      - ${DATABASE_PORT}:3306
+      - "7003:80"
+    container_name: admin
     volumes:
-      - ./database_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/1-create_tables.sql:ro
+      - ./admin/:/var/www/html/
