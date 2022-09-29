@@ -4,39 +4,40 @@ GRANT ALL PRIVILEGES ON appDB.* TO 'user'@'%';
 FLUSH PRIVILEGES;
 
 USE appDB;
-CREATE TABLE IF NOT EXISTS users (
-  ID INT(11) NOT NULL AUTO_INCREMENT,
-  name VARCHAR(20) NOT NULL,
-  surname VARCHAR(40) NOT NULL,
+CREATE TABLE IF NOT EXISTS user (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  login VARCHAR(20) NOT NULL,
+  password VARCHAR(20) NOT NULL,
   PRIMARY KEY (ID)
 );
 
-INSERT INTO users (name, surname)
-SELECT * FROM (SELECT 'Alex', 'Rover') AS tmp
-WHERE NOT EXISTS (
-    SELECT name FROM users WHERE name = 'Alex' AND surname = 'Rover'
-) LIMIT 1;
+INSERT INTO user(login, password) VALUES("admin", "admin");
+INSERT INTO user(login, password) VALUES("user", "user");
 
-INSERT INTO users (name, surname)
-SELECT * FROM (SELECT 'Bob', 'Marley') AS tmp
-WHERE NOT EXISTS (
-    SELECT name FROM users WHERE name = 'Bob' AND surname = 'Marley'
-) LIMIT 1;
+CREATE TABLE IF NOT EXISTS weather_report (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  user_id INT(11) NOT NULL,
+  timestamp DATETIME NOT NULL,
+  temperature DOUBLE NOT NULL,
+  wind_speed DOUBLE NOT NULL,
+  pressure INT NOT NULL,
+  FOREIGN KEY (user_id)
+        REFERENCES user(id),
+  PRIMARY KEY (id)
+);
 
-INSERT INTO users (name, surname)
-SELECT * FROM (SELECT 'Alex', 'Rover') AS tmp
-WHERE NOT EXISTS (
-    SELECT name FROM users WHERE name = 'Alex' AND surname = 'Rover'
-) LIMIT 1;
+INSERT INTO weather_report(user_id, timestamp, temperature, wind_speed, pressure) 
+                    VALUES(1, '2020-12-11 05:54:39', -5.5, 10.2, 1900);
+INSERT INTO weather_report(user_id, timestamp, temperature, wind_speed, pressure) 
+                    VALUES(1, '2020-12-11 08:34:29', -3.5, 9.2, 1910);
+INSERT INTO weather_report(user_id, timestamp, temperature, wind_speed, pressure) 
+                    VALUES(1, '2020-12-11 11:17:45', -2.4, 0.5, 1950);
 
-INSERT INTO users (name, surname)
-SELECT * FROM (SELECT 'Kate', 'Yandson') AS tmp
-WHERE NOT EXISTS (
-    SELECT name FROM users WHERE name = 'Kate' AND surname = 'Yandson'
-) LIMIT 1;
+INSERT INTO weather_report(user_id, timestamp, temperature, wind_speed, pressure) 
+                    VALUES(2, '2020-12-11 05:54:39', -5.5, 10.2, 1900);
+INSERT INTO weather_report(user_id, timestamp, temperature, wind_speed, pressure) 
+                    VALUES(2, '2020-12-11 08:34:29', -3.5, 9.2, 1910);
+INSERT INTO weather_report(user_id, timestamp, temperature, wind_speed, pressure) 
+                    VALUES(2, '2020-12-11 11:17:45', -2.4, 0.5, 1950);
 
-INSERT INTO users (name, surname)
-SELECT * FROM (SELECT 'Lilo', 'Black') AS tmp
-WHERE NOT EXISTS (
-    SELECT name FROM users WHERE name = 'Lilo' AND surname = 'Black'
-) LIMIT 1;
+                    

@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+
+    </head>
+    <body>
+        <div class="wrapper">
+            
+            <h1>Login</h1>
+
+            <form method="post" action="/control/do_login.php">
+                <div class="field">
+                    <label for="login" class="form-label">Login</label>
+                    <input type="text" class="form-control" id="login" name="login" required>
+                </div>
+                <div class="field">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="field">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
