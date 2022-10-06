@@ -1,6 +1,5 @@
-<html lang="en">
 <head>
-<title>Hello world page</title>
+<title>User Page</title>
     <link rel="stylesheet" href="style.css" type="text/css"/>
 </head>
 <body class="wrapper">
@@ -8,21 +7,21 @@
 <ul>
                 <a href="/about.html">About</a>
                 <a href="/index.html">Main</a>
-                <a href="/control/user/weather.php">Weather</a>
+                <a href="/control/weather.php">Weather</a>
 </ul>
 
 <table>
-    <tr><th>Id</th><th>Login</th><th>Password</th></tr>
+    <tr><th>Id</th><th>Login</th></tr>
 <?php
 include_once "boot.php";
 
-$stmt = db()->prepare("SELECT * FROM user WHERE id = ?");
-$stmt->bind_param("s", $_COOKIE['user']);
+$stmt = db()->prepare("SELECT * FROM account WHERE login = ?");
+$stmt->bind_param("s", $_SERVER['PHP_AUTH_USER']);
 $stmt->execute();
 $result = $stmt->get_result();
 
 foreach ($result as $row){
-    echo "<tr><td>{$row['id']}</td><td>{$row['login']}</td><td>{$row['password']}</td></tr>";
+    echo "<tr><td>{$row['id']}</td><td>{$row['login']}</td></tr>";
 }
 ?>
 </table>

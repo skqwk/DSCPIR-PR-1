@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-<title>Hello world page</title>
+<title>User Weather Report</title>
     <link rel="stylesheet" href="style.css" type="text/css"/>
 </head>
 <body class="wrapper">
@@ -16,8 +16,11 @@
     <?php
 include_once "boot.php";
 
-$stmt = db()->prepare("SELECT * FROM weather_report WHERE user_id = ?");
-$stmt->bind_param("s", $_COOKIE['user']);
+$stmt = db()->prepare("SELECT * from 
+(select W.id, timestamp, temperature, wind_speed, pressure, login 
+from weather_report W inner join account A on A.id = W.user_id) J 
+                      where login = ?");
+$stmt->bind_param("s", $_SERVER['PHP_AUTH_USER']);
 $stmt->execute();
 $result = $stmt->get_result();
 

@@ -1,18 +1,18 @@
 CREATE DATABASE IF NOT EXISTS appDB;
 CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON appDB.* TO 'user'@'%';
+GRANT SELECT,UPDATE,INSERT ON appDB.* TO 'user'@'%';
 FLUSH PRIVILEGES;
 
 USE appDB;
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS account (
   id INT(11) NOT NULL AUTO_INCREMENT,
   login VARCHAR(20) NOT NULL,
-  password VARCHAR(20) NOT NULL,
+  password VARCHAR(255) NOT NULL,
   PRIMARY KEY (ID)
 );
 
-INSERT INTO user(login, password) VALUES("admin", "admin");
-INSERT INTO user(login, password) VALUES("user", "user");
+INSERT INTO account(login, password) VALUES("admin", "{SHA}0DPiKuNIrrVmD8IUCuw1hQxNqZc=");
+INSERT INTO account(login, password) VALUES("user", "{SHA}Et6pb+wgWTVmq3VpLJlJWWgzrck=");
 
 CREATE TABLE IF NOT EXISTS weather_report (
   id INT(11) NOT NULL AUTO_INCREMENT,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS weather_report (
   wind_speed DOUBLE NOT NULL,
   pressure INT NOT NULL,
   FOREIGN KEY (user_id)
-        REFERENCES user(id),
+        REFERENCES account(id),
   PRIMARY KEY (id)
 );
 

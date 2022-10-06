@@ -1,3 +1,0 @@
-<If "%{HTTP_COOKIE} !~ /auth=yes.*/">
-  Redirect /login.html
-</If>

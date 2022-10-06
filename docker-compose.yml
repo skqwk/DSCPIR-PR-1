@@ -8,7 +8,8 @@ services:
     expose: 
       - "80"
     volumes:
-      - ./php_apache/:/var/www/html/
+      - ./php_apache/content/:/var/www/html/
+      - ./php_apache/conf/000-default.conf:/etc/apache2/sites-available/000-default.conf
     environment:
       - HOST=${DATABASE_HOST}
       - USERNAME=${DATABASE_USERNAME}
