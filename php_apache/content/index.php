@@ -7,7 +7,7 @@
 <ul>
                 <a href="/about.html">About</a>
                 <a href="/index.html">Main</a>
-                <a href="/control/weather.php">Weather</a>
+                <a href="weather.php">Weather</a>
 </ul>
 
 <table>
