@@ -1,0 +1,3 @@
+<link rel="stylesheet" href="style/style.css" type="text/css"/>
+<link rel="stylesheet" href="style/<?php echo (isset($_COOKIE['theme'])) ? $_COOKIE['theme'].'-style.css' : 'light-style.css'; ?>" type="text/css">
+<link rel="icon" type="image/x-icon" href="icon/<?php echo (isset($_COOKIE['icon']) ? $_COOKIE['icon'] : 'cloud.png')?>">

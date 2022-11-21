@@ -1,14 +1,15 @@
 <html lang="en">
 <head>
-<title>User Weather Report</title>
-    <link rel="stylesheet" href="style.css" type="text/css"/>
+<title><?php echo (isset($_COOKIE['name'])) ? $_COOKIE['name'] : "User" ?> Weather Report</title>
+    <?php include 'theme.php';?>
 </head>
 <body class="wrapper">
-<h1>User Weather Report</h1>
+<h1><?php echo (isset($_COOKIE['name'])) ? $_COOKIE['name'] : "User" ?> Weather Report</h1>
 <ul>
                 <a href="/about.html">About</a>
                 <a href="/index.html">Main</a>
-                <a href="/control/user/index.php">Profile</a>
+                <a href="index.php">Profile</a>
+                <a href="documents.php">Documents</a>
 </ul>
 
 <table>
