@@ -5,6 +5,7 @@ RUN composer install --ignore-platform-reqs --no-scripts
 FROM php:8.0-apache
 WORKDIR /var/www/html/
 RUN docker-php-ext-install mysqli && \
+    a2enmod rewrite && \
     a2enmod authn_dbd && \
     pecl install -o -f redis && \
     rm -rf /tmp/pear && \

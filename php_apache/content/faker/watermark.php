@@ -11,6 +11,5 @@ function addWatermark($image) {
     $image2 = imagecreatefromstring(file_get_contents($image2));
 
     imagecopy($image1, $image2, 40, 10, 0, 0, $width, $height);
-    imagemergecopy();
     imagepng($image1, $image);
 }

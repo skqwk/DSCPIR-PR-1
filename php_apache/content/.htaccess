@@ -1,3 +1,8 @@
+RewriteEngine on
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ main.php
+
 AuthName "Login"
 AuthType Basic
 Require valid-user
