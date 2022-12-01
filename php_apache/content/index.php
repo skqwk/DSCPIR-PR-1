@@ -51,6 +51,7 @@ function setIcon($icon) {
                 <a href="/index.html">Main</a>
                 <a href="weather.php">Weather</a>
                 <a href="documents.php">Documents</a>
+                <a href="faker/stats.php">Stats</a>
 </ul>
 
 <table>

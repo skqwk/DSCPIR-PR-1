@@ -9,6 +9,7 @@ services:
     expose: 
       - "80"
     volumes:
+      - my_folder:/var/www/html/vendor
       - ./php_apache/:/var/www/html/
       - ./php_apache/conf/000-default.conf:/etc/apache2/sites-available/000-default.conf
       - ./php_apache/conf/php.ini:/usr/local/etc/php/php.ini
@@ -68,3 +69,6 @@ services:
     volumes:
       - ./storage:/data
     restart: always
+
+volumes:
+  my_folder:
