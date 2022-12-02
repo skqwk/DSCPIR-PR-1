@@ -2,7 +2,7 @@
 require "aws/aws-autoloader.php";
 date_default_timezone_set('America/Los_Angeles');
 
-// Простой способ сделать глобально доступным подключение в БД
+Простой способ сделать глобально доступным подключение в БД
 function db(): mysqli
 {
     static $mysqli;

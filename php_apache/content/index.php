@@ -1,5 +1,4 @@
 <?php
-session_start();
 if(array_key_exists('switch', $_POST)) {
     switchTheme();
 } else if (array_key_exists('setname', $_POST)) {
