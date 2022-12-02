@@ -24,7 +24,7 @@ class IndexController extends Controller {
 
     public function session_action() {
         $this->model->update_cookies();
-        HEADER('Location: /control/content/index');
+        HEADER('Location: /control/content');
     }
 }
 ?>

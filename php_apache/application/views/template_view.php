@@ -25,7 +25,7 @@
         ),
         array(
             "title" => "Profile",
-            "href" => "index"
+            "href" => "/control/content/"
         )
 
     );
@@ -51,8 +51,8 @@
 <br>
 <br>
 <br>
-<form method="post" action="./do_logout.php">
+<!-- <form method="post" action="./do_logout.php">
     <button type="submit" class="btn btn-primary">Logout</button>
-</form>
+</form> -->
 </body>
 </html>

@@ -1,9 +1,8 @@
 <?php
-class View
-{
+class View {
 	//public $template_view; // здесь можно указать общий вид по умолчанию.
 	
-	function show($content_view, $template_view, $data = null) {
+	function show($content_view, $template_view = null, $data = null) {
         extract($data);
 		if(!is_null($template_view)) {
             include '../application/views/'.$template_view;

@@ -1,7 +1,7 @@
 <?php
-include_once '../application/details/boot.php';
+include_once '../application/config/config.php';
 include_once '../application/core/model.php';
-require_once '../vendor/autoload.php';
+require_once '../application/libraries/vendor/autoload.php';
 
 use Amenadiel\JpGraph\Graph;
 use Amenadiel\JpGraph\Plot;

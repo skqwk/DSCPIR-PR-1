@@ -1,6 +1,7 @@
 <?php
+include_once 'domain.php';
 
-class Location {
+class Location extends Domain {
     public int $id;
     public ?string $name;
     public float $latitude;

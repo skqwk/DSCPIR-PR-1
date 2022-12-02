@@ -1,14 +1,20 @@
 <?php
-include_once '../application/details/boot.php';
+include_once '../application/config/config.php';
 include_once '../application/core/model.php';
 class IndexModel extends Model {
 
+
+    private UserRepo $userRepo;
+
+    public function __construct() {
+        $this->userRepo = userRepo();
+    }
+
+
     public function get_data() {
-        $stmt = db()->prepare("SELECT * FROM account WHERE login = ?");
-        $stmt->bind_param("s", $_SERVER['PHP_AUTH_USER']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result;
+        $login = $_SERVER['PHP_AUTH_USER'];
+        $user = $this->userRepo->findByLogin($login);
+        return $user;
     }
 
     public function get_icons() {
@@ -37,13 +43,13 @@ class IndexModel extends Model {
             
     function switchTheme() {
             if (!isset($_COOKIE["theme"])) {
-                setcookie("theme", "dark");
+                setcookie("theme", "dark", time()+3600 , '/');
             } else if ($_COOKIE["theme"] === "dark") {
                 unset($_COOKIE['theme']); 
-                setcookie("theme", "light");
+                setcookie("theme", "light", time()+3600 , '/');
             } else if ($_COOKIE["theme"] === "light") {
                 unset($_COOKIE['theme']); 
-                setcookie("theme", "dark");
+                setcookie("theme", "dark", time()+3600 , '/');
             } else {
                 unset($_COOKIE['theme']); 
             }
@@ -53,14 +59,14 @@ class IndexModel extends Model {
             if (isset($_COOKIE["name"])) {
                 unset($_COOKIE["name"]);
             }
-            setcookie("name", $name);
+            setcookie("name", $name, time()+3600 , '/');
         }
 
         function setIcon($icon) {
             if (isset($_COOKIE["icon"])) {
                 unset($_COOKIE["icon"]);
             }
-            setcookie("icon", $icon);
+            setcookie("icon", $icon, time()+3600 , '/');
         }
 
 
