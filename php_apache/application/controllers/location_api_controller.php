@@ -18,9 +18,9 @@ class LocationApiController extends ApiController {
       }
 
     function is_not_valid($body) {
-    return empty($body->name) 
-    || empty($body->latitude) 
-    || empty($body->longitude);
+        return empty($body->name) 
+        || empty($body->latitude) 
+        || empty($body->longitude);
     }
 }
 

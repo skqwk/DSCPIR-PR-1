@@ -11,10 +11,11 @@ class UserDBRepoImpl implements UserRepo {
     }
 
     public function findByLogin($login) {
-        $stmt = $db->prepare("SELECT * FROM account WHERE login = ?");
+        $stmt = $this->db->prepare("SELECT * FROM account WHERE login = ?");
         $stmt->bind_param("s", $login);
         $stmt->execute();
         $result = $stmt->get_result();
+        return $result;
     }
 }
 ?>

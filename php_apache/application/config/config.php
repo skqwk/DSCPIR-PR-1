@@ -57,8 +57,8 @@ function locationRepo(): CrudRepo {
 function userRepo(): UserRepo {
     static $userRepo;
     if (!$userRepo) {
-        $userRepo = new UserMemRepoImpl();
-        // $userRepo = new UserDBRepoImpl(db());
+        // $userRepo = new UserMemRepoImpl();
+        $userRepo = new UserDBRepoImpl(db());
     }
     return $userRepo;
 }
