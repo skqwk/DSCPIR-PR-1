@@ -9,4 +9,10 @@ public class WeatherReportService extends AbstractService<WeatherReport> {
   protected WeatherReportService(WeatherReportRepository repository) {
     super("weatherReport", repository);
   }
+
+  @Override
+  public WeatherReport setId(WeatherReport weatherReport, Long id) {
+    weatherReport.setId(id);
+    return weatherReport;
+  }
 }

@@ -9,4 +9,10 @@ public class LocationService extends AbstractService<Location> {
   protected LocationService(LocationRepository repository) {
     super("location", repository);
   }
+
+  @Override
+  public Location setId(Location location, Long id) {
+    location.setId(id);
+    return location;
+  }
 }

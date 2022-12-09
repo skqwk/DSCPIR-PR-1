@@ -9,6 +9,8 @@ services:
     command: postgres -p 5432
     ports:
       - 5432:5432
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/1-create_tables.sql:ro
 
   minio:
     environment:
@@ -23,3 +25,9 @@ services:
     volumes:
       - ./storage:/data
     restart: always
+
+  redis:
+    container_name: ${REDIS_HOST}
+    image: redis:alpine3.16
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}

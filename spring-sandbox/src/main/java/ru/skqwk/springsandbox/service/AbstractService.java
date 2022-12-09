@@ -28,6 +28,7 @@ public abstract class AbstractService<T> implements CrudService<T> {
   @Override
   public T update(Long id, T t) {
     findById(id);
+    t = setId(t, id);
     return repository.save(t);
   }
 
@@ -46,4 +47,6 @@ public abstract class AbstractService<T> implements CrudService<T> {
     findById(id);
     repository.deleteById(id);
   }
+
+  public abstract T setId(T t, Long id);
 }
