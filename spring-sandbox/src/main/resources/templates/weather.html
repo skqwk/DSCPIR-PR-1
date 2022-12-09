@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:insert="~{base :: header(~{::title})}">
+    <title>Weather Report</title>
+</head>
+<body class="wrapper">
+<div class="wrapper" th:insert="~{base :: nav(pageTitle = 'User Weather Report')}"></div>
+<table>
+    <tr><th>Id</th><th>Temperature</th><th>Pressure</th><th>Timestamp</th><th>Wind speed</th></tr>
+    <tr th:each="weatherReport: ${weatherReports}">
+        <td th:text="${weatherReport.getId()}"></td>
+        <td th:text="${weatherReport.getTemperature()}"></td>
+        <td th:text="${weatherReport.getPressure()}"></td>
+        <td th:text="${weatherReport.getTimestamp()}"></td>
+        <td th:text="${weatherReport.getWindSpeed()}"></td>
+    </tr>
+</table>
+</body>
+</html>

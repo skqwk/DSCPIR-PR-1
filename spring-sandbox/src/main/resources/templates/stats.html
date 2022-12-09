@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:insert="~{base :: header(~{::title})}">
+    <title>Statistics</title>
+</head>
+<body class="wrapper">
+<div class="wrapper" th:insert="~{base :: nav(pageTitle = 'User Statistics')}"></div>
+<div class="wrapper">
+    <img th:each="image: ${images}" th:src="|/img/${image}|"/>
+</div>
+<table>
+    <tr><th>Address</th><th>Weather</th><th>Temperature</th><th>Pressure</th><th>Date</th><th>Wind Speed</th></tr>
+    <tr th:each="statRow: ${statRows}">
+        <td th:text="${statRow.getLocation()}"></td>
+        <td th:text="${statRow.getEmoji()}"></td>
+        <td th:text="${statRow.getTemperature()}"></td>
+        <td th:text="${statRow.getPressure()}"></td>
+        <td th:text="${statRow.getDate()}"></td>
+        <td th:text="${statRow.getWindSpeed()}"></td>
+    </tr>
+</table>
+</body>
+</html>

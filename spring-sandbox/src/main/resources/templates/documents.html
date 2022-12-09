@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:insert="~{base :: header(~{::title})}">
+    <title>Documents</title>
+</head>
+<body class="wrapper">
+<div class="wrapper" th:insert="~{base :: nav(pageTitle = 'User Documents')}"></div>
+<table>
+    <tr><th>Id</th><th>Username</th></tr>
+    <tr>
+        <td th:text="${user.getId()}"></td>
+        <td th:text="${user.getUsername()}"></td>
+    </tr>
+</table>
+</body>
+</html>

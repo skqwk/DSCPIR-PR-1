@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    password: 11
+    url: "jdbc:postgresql://localhost:5432/sandbox"
+    username: root

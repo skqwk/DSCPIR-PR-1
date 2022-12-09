@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  php_apache:
+    image: php_apache_laravel
+    container_name: php_apache_laravel
+    build:
+      context: .
+    ports:
+        - "8001:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./apache-config/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./apache-config/php.ini:/usr/local/etc/php/php.ini

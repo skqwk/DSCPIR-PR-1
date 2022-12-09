@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+    <meta charset="UTF-8">
+    <title th:replace="${title}">Weather Service</title>
+    <link rel="stylesheet"
+          type="text/css"
+          href="/style.css"/>
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+
+<body>
+<div th:fragment="nav(pageTitle)" th:remove="tag">
+    <ul>
+        <a href="/">Profile</a>
+        <a href="/weather">Weather</a>
+        <a href="/stats">Stats</a>
+        <a href="/documents">Stats</a>
+    </ul>
+    <h1 th:text="${pageTitle}"></h1>
+</div>
+
+<div th:fragment="to_main_page">
+    <a th:href="@{/}">На главную</a>
+</div>
+</body>
+</html>
