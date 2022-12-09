@@ -6,7 +6,8 @@
     <link rel="stylesheet"
           type="text/css"
           href="/style.css"/>
-    <link rel="icon" type="image/x-icon" href="/icon.png">
+    <link rel="stylesheet" type="text/css" th:href="${session.containsKey('switch') ? session.switch + '-style.css' : '/light-style.css'}"/>
+    <link rel="icon" type="image/x-icon" th:href="${session.containsKey('icon') ? '/icon/' + session.icon : '/icon/sun.png'}">
 </head>
 
 <body>

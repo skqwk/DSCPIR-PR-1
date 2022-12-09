@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru"
+      th:with="pageName=${session.containsKey('username') ? session.username + ' Profile' : 'User Profile'}">
 <head th:insert="~{base :: header(~{::title})}">
-    <title>Profile</title>
+    <title th:text="${pageName}"></title>
 </head>
 <body class="wrapper">
-<div class="wrapper" th:insert="~{base :: nav(pageTitle = 'User Profile')}"></div>
+<div class="wrapper" th:insert="~{base :: nav(pageTitle = ${pageName})}"></div>
 <table>
     <tr><th>Id</th><th>Username</th></tr>
     <tr>
@@ -12,10 +13,29 @@
         <td th:text="${user.getUsername()}"></td>
     </tr>
 </table>
-<form method="post" action="index/session">
-    <input type="text" name="username" value="<?php echo (isset($_COOKIE['name'])) ? $_COOKIE['name'] : "" ?>"/>
+<br>
+<form method="post" action="/profile/session/switch">
+    <input type="submit" name="switch"
+           class="button" value="Theme switch" />
+</form>
+<br>
+<form method="post" action="/profile/session/username">
+    <input type="text" name="username" th:value="${session.containsKey('username') ? session.username : ''}"/>
     <input type="submit" name="setname"
            class="button" value="Set name" />
+</form>
+<br>
+<form method="post" action="/profile/session/icon">
+    <label for="selected-favicon">Select weather</label>
+    <select name="icon" id="selected-favicon">
+        <option th:each="icon : ${icons}" th:text="${icon.getName()}" th:value="${icon.getValue()}"></option>
+        <?php
+    foreach ($icons as $icon) {
+        echo "<option value=\"{$icon['file']}\">{$icon['name']}</option>";
+        }
+        ?>
+    </select>
+    <input type="submit" value="Set icon">
 </form>
 <br>
 <div th:replace="~{base :: logout}"></div>
