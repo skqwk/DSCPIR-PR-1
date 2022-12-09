@@ -5,12 +5,32 @@
 </head>
 <body class="wrapper">
 <div class="wrapper" th:insert="~{base :: nav(pageTitle = 'User Documents')}"></div>
-<table>
-    <tr><th>Id</th><th>Username</th></tr>
-    <tr>
-        <td th:text="${user.getId()}"></td>
-        <td th:text="${user.getUsername()}"></td>
-    </tr>
-</table>
+<div class="wrapper">
+    <div th:if="${documents.size() == 0}">
+        Your folder is empty
+    </div>
+    <div th:if="${documents.size() != 0}">
+        <table>
+            <tr><th>File</th><th>Upload date</th></tr>
+            <tr th:each="document : ${documents}">
+                <td>
+                    <a th:href="${document.getHref()}" th:text="${document.getFilename()}"></a>
+                </td>
+                <td th:text="${document.getUploadDate()}"></td>
+            </tr>
+        </table>
+    </div>
+    <form enctype="multipart/form-data" action="/documents" method="POST" class="wrapper">
+        <div>
+            <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
+            <input class="custom-file-input"
+                   id="file_field" name="fileToUpload"
+                   type="file"     value="Upload"/>
+        </div>
+        <br>
+        <input class="btn btn-primary" type="submit" value="Send file"/>
+    </form>
+</div>
+<div th:replace="~{base :: logout}"></div>
 </body>
 </html>

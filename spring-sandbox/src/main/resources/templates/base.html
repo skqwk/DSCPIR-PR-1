@@ -15,13 +15,13 @@
         <a href="/">Profile</a>
         <a href="/weather">Weather</a>
         <a href="/stats">Stats</a>
-        <a href="/documents">Stats</a>
+        <a href="/documents">Documents</a>
     </ul>
     <h1 th:text="${pageTitle}"></h1>
 </div>
 
-<div th:fragment="to_main_page">
-    <a th:href="@{/}">На главную</a>
+<div th:fragment="logout">
+    <a th:href="@{/logout}">Выйти</a>
 </div>
 </body>
 </html>

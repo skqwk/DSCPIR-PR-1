@@ -16,6 +16,7 @@ public class WatermarkService extends ImageService{
 
   public void addWatermark(String sourceFileNameWithType) throws IOException {
     String sourceFilePath = PATH + sourceFileNameWithType;
+    System.out.println(sourceFilePath);
     BufferedImage image = ImageIO.read(new File(sourceFilePath));
     BufferedImage overlay = ImageIO.read(new File(WATERMARK));
 
