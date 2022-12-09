@@ -10,7 +10,7 @@ class WatermarkServiceTest {
 
     private final WatermarkService watermarkService = new WatermarkService();
 
-    @Test
+    
     void addWatermark() throws IOException {
       watermarkService.addWatermark("plot_pie");
     }

@@ -1,60 +1,48 @@
-version: "3"
-
 services:
-  php_apache:
-    image: php_apache
-    container_name: php_apache
-    build:
-      context: ./php_apache
-    expose: 
-      - "80"
+  app:
+    image: openjdk:17-oracle
+    container_name: spring-sandbox
     volumes:
-      - my_folder:/var/www/html/vendor
-      - ./php_apache/:/var/www/html/
-      - ./php_apache/conf/000-default.conf:/etc/apache2/sites-available/000-default.conf
-      - ./php_apache/conf/php.ini:/usr/local/etc/php/php.ini
+      - ./spring-sandbox.jar:/spring-sandbox.jar
+    command: java -jar spring-sandbox.jar
     environment:
-      - HOST=${DATABASE_HOST}
-      - USERNAME=${DATABASE_USERNAME}
-      - PASSWORD=${DATABASE_PASSWORD}
-      - NAME=${DATABASE_NAME}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+      - SPRING_DATASOURCE_USERNAME=${DATABASE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DATABASE_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_DATA_REDIS_HOST=${REDIS_HOST}
+      - SPRING_DATA_REDIS_PORT=${REDIS_PORT}
+      - MINIO_SERVER_PORT=${MINIO_SERVER_PORT}
+      - MINIO_CONSOLE_PORT=${MINIO_CONSOLE_PORT}
+      - MINIO_HOST=${MINIO_HOST}
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
-      - MINIO_URL=${MINIO_HOST}:${MINIO_SERVER_PORT}
-      - MINIO_SERVER_PORT=${MINIO_SERVER_PORT}
-    links:
-      - database
-      - nginx
-      - redis
-
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    volumes:
-        - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-        - ./nginx/html:/usr/share/nginx/html
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
     ports:
-        - "8000:8000"
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
 
-  database:
-    image: mysql
-    container_name: ${DATABASE_HOST}
+
+  db:
+    image: postgres
+    container_name: sandbox_db
     environment:
-      - MYSQL_ROOT_PASSWORD=MYSQL_ROOT_PASSWORD
-      - MYSQL_USER=${DATABASE_USERNAME}
-      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
-      - MYSQL_DATABASE=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    command: postgres -p ${DATABASE_PORT}
     ports:
-      - ${DATABASE_PORT}:3306
+      - ${DATABASE_PORT}:${DATABASE_PORT}
     volumes:
-      - ./database_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/1-create_tables.sql:ro
-
-  redis:
-    container_name: ${REDIS_HOST}
-    image: redis:alpine3.16
-    ports:
-      - ${REDIS_PORT}:${REDIS_PORT}
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/1-create_tables.sql:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   minio:
     environment:
@@ -70,5 +58,17 @@ services:
       - ./storage:/data
     restart: always
 
-volumes:
-  my_folder:
+  redis:
+    container_name: ${REDIS_HOST}
+    image: redis:alpine3.16
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/html:/usr/share/nginx/html
+    ports:
+      - "8000:8000"
