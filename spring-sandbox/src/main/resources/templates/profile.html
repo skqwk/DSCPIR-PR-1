@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru"
-      th:with="pageName=${session.containsKey('username') ? session.username + ' Profile' : 'User Profile'}">
+      th:with="pageName=${session.username != null ? session.username + ' Profile' : 'User Profile'}">
 <head th:insert="~{base :: header(~{::title})}">
     <title th:text="${pageName}"></title>
 </head>
@@ -14,26 +14,21 @@
     </tr>
 </table>
 <br>
-<form method="post" action="/profile/session/switch">
+<form method="post" action="profile/session/switch">
     <input type="submit" name="switch"
            class="button" value="Theme switch" />
 </form>
 <br>
-<form method="post" action="/profile/session/username">
+<form method="post" action="profile/session/username">
     <input type="text" name="username" th:value="${session.containsKey('username') ? session.username : ''}"/>
     <input type="submit" name="setname"
            class="button" value="Set name" />
 </form>
 <br>
-<form method="post" action="/profile/session/icon">
+<form method="post" action="profile/session/icon">
     <label for="selected-favicon">Select weather</label>
     <select name="icon" id="selected-favicon">
         <option th:each="icon : ${icons}" th:text="${icon.getName()}" th:value="${icon.getValue()}"></option>
-        <?php
-    foreach ($icons as $icon) {
-        echo "<option value=\"{$icon['file']}\">{$icon['name']}</option>";
-        }
-        ?>
     </select>
     <input type="submit" value="Set icon">
 </form>

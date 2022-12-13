@@ -24,13 +24,13 @@ public class StatsViewController {
         List<StatRow> stats = statService.generateStats();
 
         String plotPie = plotService.drawPlotPie(statService.getAmountMetrics(stats));
-        watermarkService.addWatermark(plotPie);
+        plotPie = watermarkService.addWatermark(plotPie);
 
         String plotBar = plotService.drawPlotBar(statService.getAmountWeather(stats));
-        watermarkService.addWatermark(plotBar);
+        plotBar = watermarkService.addWatermark(plotBar);
 
         String plotGraph = plotService.drawPlotGraph(statService.getAverageTemperature(stats));
-        watermarkService.addWatermark(plotGraph);
+        plotGraph = watermarkService.addWatermark(plotGraph);
 
 
         model.addAttribute("images", List.of(plotBar, plotPie, plotGraph));

@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru"
-      th:with="pageName=${session.containsKey('username') ? session.username + ' Statistics' : 'User Statistics'}">
+      th:with="pageName=${session.username != null ? session.username + ' Statistics' : 'User Statistics'}">
 <head th:insert="~{base :: header(~{::title})}">
     <title th:text="${pageName}"></title>
 </head>
 <body class="wrapper">
 <div class="wrapper" th:insert="~{base :: nav(pageTitle = ${pageName})}"></div>
 <div class="wrapper">
-    <img th:each="image: ${images}" th:src="|/img/${image}|"/>
+    <img th:each="image: ${images}" th:src="${image}"/>
 </div>
 <table>
     <tr><th>Address</th><th>Weather</th><th>Temperature</th><th>Pressure</th><th>Date</th><th>Wind Speed</th></tr>

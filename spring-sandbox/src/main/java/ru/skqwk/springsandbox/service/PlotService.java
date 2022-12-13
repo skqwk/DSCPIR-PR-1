@@ -18,7 +18,9 @@ import java.util.Map;
 @Service
 public class PlotService extends ImageService {
 
-
+  public PlotService(DocumentService documentService) {
+    super(documentService);
+  }
 
   public String drawPlotPie(Map<String, Integer> data) {
     JFreeChart pieChart =
@@ -83,16 +85,14 @@ public class PlotService extends ImageService {
   }
 
   private String createImage(String fileName, JFreeChart chart) {
-    String filePath = PATH + fileName + "." + IMAGE_TYPE;
     int width = 500;
     int height = 500;
     BufferedImage bufferedImage = chart.createBufferedImage(width, height);
-    File image = new File(filePath);
     try {
-      boolean result = ImageIO.write(bufferedImage, IMAGE_TYPE, image);
+      fileName = saveImage(fileName, bufferedImage);
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return fileName + "." + IMAGE_TYPE;
+    return fileName;
   }
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru"
-      th:with="pageName=${session.containsKey('username') ? session.username + ' Weather Report' : 'User Weather Report'}">
+      th:with="pageName=${session.username != null ? session.username + ' Weather Report' : 'User Weather Report'}">
 <head th:insert="~{base :: header(~{::title})}">
     <title th:text="${pageName}"></title>
 </head>

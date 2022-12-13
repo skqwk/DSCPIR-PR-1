@@ -23,7 +23,7 @@ public class ProfileViewController {
             Icon.builder().name("Snow").value("snow.png").build()
     );
 
-    @GetMapping("/")
+    @GetMapping("/profile")
     public String profile(@AuthenticationPrincipal UserAccount userAccount, Model model) {
         model.addAttribute("user", userAccount);
         model.addAttribute("icons", icons);
@@ -34,13 +34,13 @@ public class ProfileViewController {
     public String username(@RequestParam(name = "username", required = false, defaultValue = "") String username,
                           HttpSession session) {
         session.setAttribute("username", username);
-        return "redirect:/";
+        return "redirect:/profile";
     }
     @PostMapping("/profile/session/icon")
     public String icon(@RequestParam(name = "icon", required = false, defaultValue = "sun.png") String icon,
                        HttpSession session) {
         session.setAttribute("icon", icon);
-        return "redirect:/";
+        return "redirect:/profile";
     }
 
     @PostMapping("/profile/session/switch")
@@ -48,7 +48,7 @@ public class ProfileViewController {
                        HttpSession session) {
         Object nowSwitchTheme = session.getAttribute("switch");
         session.setAttribute("switch", toggle(nowSwitchTheme));
-        return "redirect:/";
+        return "redirect:/profile";
     }
 
     private String toggle(Object nowSwitchTheme) {

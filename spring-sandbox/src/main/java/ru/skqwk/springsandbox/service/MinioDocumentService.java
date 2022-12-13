@@ -1,6 +1,7 @@
 package ru.skqwk.springsandbox.service;
 
 import io.minio.BucketExistsArgs;
+import io.minio.GetObjectArgs;
 import io.minio.ListObjectsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skqwk.springsandbox.config.MinioConfig;
 import ru.skqwk.springsandbox.dto.DocumentMetadata;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -45,17 +47,24 @@ public class MinioDocumentService implements DocumentService {
     }
 
     @Override
+    public void loadImage(String folder, String fileNameWithType, InputStream inputStream) {
+        try {
+            minioClient.putObject(
+                    PutObjectArgs.builder().bucket(folder).object(fileNameWithType).stream(
+                                    inputStream, -1, 10485760)
+                            .contentType("image/png")
+                            .build());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    @Override
     public List<DocumentMetadata> getLoadedDocuments(String username) {
         try {
-            boolean found =
-                    minioClient.bucketExists(BucketExistsArgs.builder().bucket(username).build());
-            if (!found) {
-                minioClient.makeBucket(MakeBucketArgs.builder()
-                        .bucket(username).build());
-                minioClient.setBucketPolicy(SetBucketPolicyArgs.builder()
-                                .bucket(username)
-                                .config(minioConfig.getPolicyJson(username))
-                        .build());
+            if (!isFolderExists(username)) {
+                createFolder(username);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -67,6 +76,32 @@ public class MinioDocumentService implements DocumentService {
                 .map(result -> mapResultToDocumentMetadata(result, username))
                 .collect(Collectors.toList());
         return documents;
+    }
+
+    @Override
+    public void createFolder(String folder) throws Exception {
+        minioClient.makeBucket(MakeBucketArgs.builder()
+                .bucket(folder).build());
+        minioClient.setBucketPolicy(SetBucketPolicyArgs.builder()
+                .bucket(folder)
+                .config(minioConfig.getPolicyJson(folder))
+                .build());
+    }
+
+    @Override
+    public boolean isFolderExists(String folder) throws Exception {
+        return
+                minioClient.bucketExists(BucketExistsArgs.builder().bucket(folder).build());
+
+    }
+
+    @Override
+    public InputStream getDocument(String folder, String fileName) throws Exception {
+        return minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(folder)
+                        .object(fileName)
+                        .build());
     }
 
     private DocumentMetadata mapResultToDocumentMetadata(Result<Item> result, String bucket) {
@@ -84,8 +119,9 @@ public class MinioDocumentService implements DocumentService {
         return documentMetadata;
     }
 
-    private String createHref(String fileName, String bucket) {
-        return minioConfig.getMinioUrl() + "/" + bucket + "/" + fileName;
+    @Override
+    public String createHref(String fileName, String bucket) {
+        return "http://localhost:9001/" + bucket + "/" + fileName;
     }
 
 

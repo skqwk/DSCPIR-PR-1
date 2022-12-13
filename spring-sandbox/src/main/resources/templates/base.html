@@ -5,24 +5,26 @@
     <title th:replace="${title}">Weather Service</title>
     <link rel="stylesheet"
           type="text/css"
-          href="/style.css"/>
-    <link rel="stylesheet" type="text/css" th:href="${session.containsKey('switch') ? session.switch + '-style.css' : '/light-style.css'}"/>
-    <link rel="icon" type="image/x-icon" th:href="${session.containsKey('icon') ? '/icon/' + session.icon : '/icon/sun.png'}">
+          href="style.css"/>
+    <link rel="stylesheet" type="text/css" th:href="${session.switch != null ? session.switch + '-style.css' : '/light-style.css'}"/>
+    <link rel="icon" type="image/x-icon" th:href="${session.icon != null ? '/icon/' + session.icon : '/icon/sun.png'}">
 </head>
 
 <body>
 <div th:fragment="nav(pageTitle)" th:remove="tag">
     <ul>
-        <a href="/">Profile</a>
-        <a href="/weather">Weather</a>
-        <a href="/stats">Stats</a>
-        <a href="/documents">Documents</a>
+        <a href="profile">Profile</a>
+        <a href="weather">Weather</a>
+        <a href="stats">Stats</a>
+        <a href="documents">Documents</a>
+        <a href="/about.html">About</a>
+        <a href="/index.html">Main</a>
     </ul>
     <h1 th:text="${pageTitle}"></h1>
 </div>
 
 <div th:fragment="logout">
-    <a th:href="@{/logout}">Выйти</a>
+    <a th:href="@{logout}">Выйти</a>
 </div>
 </body>
 </html>

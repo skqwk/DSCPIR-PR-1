@@ -6,6 +6,7 @@ services:
       - ./spring-sandbox.jar:/spring-sandbox.jar
     command: java -jar spring-sandbox.jar
     environment:
+      - SERVER_PORT=${SPRING_SERVER_PORT}
       - SPRING_DATASOURCE_URL=jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
       - SPRING_DATASOURCE_USERNAME=${DATABASE_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DATABASE_PASSWORD}
@@ -72,3 +73,6 @@ services:
       - ./nginx/html:/usr/share/nginx/html
     ports:
       - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy

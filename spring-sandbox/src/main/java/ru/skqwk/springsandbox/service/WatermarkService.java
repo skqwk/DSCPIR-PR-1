@@ -10,15 +10,17 @@ import java.io.IOException;
 
 @Service
 public class WatermarkService extends ImageService{
-  private static final String WATERMARK = PATH + "watermark" + "." + IMAGE_TYPE;
+  private static final String WATERMARK = "watermark";
   private static int WATERMARK_X_POS = 20;
   private static int WATERMARK_Y_POS = 0;
 
-  public void addWatermark(String sourceFileNameWithType) throws IOException {
-    String sourceFilePath = PATH + sourceFileNameWithType;
-    System.out.println(sourceFilePath);
-    BufferedImage image = ImageIO.read(new File(sourceFilePath));
-    BufferedImage overlay = ImageIO.read(new File(WATERMARK));
+  public WatermarkService(DocumentService documentService) {
+    super(documentService);
+  }
+
+  public String addWatermark(String fileName) throws IOException {
+    BufferedImage image = getImage(fileName);
+    BufferedImage overlay = getImage(WATERMARK);
 
     // determine image type and handle correct transparency
     BufferedImage watermarked =
@@ -32,7 +34,8 @@ public class WatermarkService extends ImageService{
 
     // add text watermark to the image
     w.drawImage(overlay, WATERMARK_X_POS, WATERMARK_Y_POS, null);
-    ImageIO.write(watermarked, IMAGE_TYPE, new File(sourceFilePath));
+    saveImage(fileName, watermarked);
     w.dispose();
+    return getImageHref(fileName);
   }
 }

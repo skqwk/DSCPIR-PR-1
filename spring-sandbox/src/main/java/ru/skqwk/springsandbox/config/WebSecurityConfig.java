@@ -17,7 +17,8 @@ public class WebSecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(
-            HttpSecurity http, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService)
+            HttpSecurity http, PasswordEncoder passwordEncoder, 
+            UserDetailsService userDetailsService)
             throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(userDetailsService)
@@ -38,7 +39,7 @@ public class WebSecurityConfig {
                 .authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/", true);
+                .defaultSuccessUrl("/profile", true);
         return http.build();
     }
 }
